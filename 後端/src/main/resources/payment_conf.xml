@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+    <OperatingMode>Test</OperatingMode>
+    <MercProfile>stage</MercProfile>
+    <IsProjectContractor>N</IsProjectContractor>
+
+    <MInfo name="stage">
+        <MerchantID>3002607</MerchantID>
+        <HashKey>pwFHCqoQZGmho4w6</HashKey>
+        <HashIV>EkRm7iFT261dpevs</HashIV>
+    </MInfo>
+
+    <IgnorePayment>
+        <Method>WebATM</Method>
+        <Method>CVS</Method>
+    </IgnorePayment>
+</Config>

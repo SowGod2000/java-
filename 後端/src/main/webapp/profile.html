@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+
+<body>
+    <h2>Profile</h2>
+    <p><strong>Name:</strong> <span id="name"></span></p>
+    <p><strong>Email:</strong> <span id="email"></span></p>
+    <p><strong>Phone:</strong> <span id="phone"></span></p>
+
+    <p id="error-message" style="color:red;"></p>
+ <button id="logout-btn">Logout</button>
+    <script>
+        // 先檢查是否有 JWT
+        const token = localStorage.getItem('jwt');
+
+        if (!token) {
+            // 如果沒有 token，跳轉到登入頁面
+            window.location.href = 'login.html';
+        } else {
+            // 如果有 token，發送請求來獲取用戶資料
+            fetch('http://localhost:8080/Member/profile', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`, // 加入 JWT 到 Authorization 標頭
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        if (data.role === 'admin') {
+                            window.location.href = 'search.html';
+                            
+                        } else if (data.role === 'user') {
+                            // 顯示用戶資料
+                            document.getElementById('name').textContent = data.name;
+                            document.getElementById('email').textContent = data.email;
+                            document.getElementById('phone').textContent = data.phone;
+                        }
+                    } else {
+                        // 如果獲取資料失敗，顯示錯誤訊息
+                        document.getElementById('error-message').textContent = 'Unable to fetch profile data.';
+                    }
+                })
+                .catch(error => {
+                    // 捕獲錯誤並顯示
+                    document.getElementById('error-message').textContent = 'Error fetching profile data: ' + error;
+                });
+        }
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            // 刪除本地存儲的 JWT Token
+            localStorage.removeItem('jwt');
+
+            // 重定向到登入頁面
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+
+</html>
