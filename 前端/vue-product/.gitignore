@@ -1,6 +1,0 @@
-# 忽略所有 node_modules 依賴
-node_modules/
-
-# 忽略 Vite 的快取資料夾
-.vite/
-**/.vite/
